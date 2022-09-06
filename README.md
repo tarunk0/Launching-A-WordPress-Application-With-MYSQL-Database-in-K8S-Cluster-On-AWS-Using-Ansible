@@ -43,7 +43,7 @@ We need to use the respective module given by the ansible to create vpc. Here we
 
 ![vpc](https://miro.medium.com/max/875/1*E8YI-PfEZ-L_BtE5dInrCw.jpeg)
 
-## Create subnets in that VPC.
+## Create subnets in that VPC:
 To create a subnet inside above VPC we need to provide the id of the VPC to the subnet which we are creating. You need to specify which availability zones we are creaying in that vpc. A subnet must have a cidr block within the range of cidr block of vpc. If you wanted to have mublic ip then you need to include **map_public** as **yes** and all the values of subnets in a variable **subnet_result.**
 ```
 - name: create ec2 vpc subnet
@@ -63,7 +63,7 @@ To create a subnet inside above VPC we need to provide the id of the VPC to the 
 ```
 ![Subnet](https://miro.medium.com/max/875/1*kdkn3lVMcQlS4JCyvQEd7Q.jpeg)
 
-## Create an internet gateway.
+## Create an internet gateway:
 Now we need to create internet gateway that will take our requests to internet world. The IG will be connected to our vpc. if you are creating VPC then only one IG is required. you need to specify name of the **IG**, the region in which your vpc is located and the state should be present. The whole output is register into a variable **igw_result.**
 ```
   # create an internet gateway for the vpc
@@ -80,7 +80,7 @@ Now we need to create internet gateway that will take our requests to internet w
 ```
 ![Internet Gateway](https://miro.medium.com/max/875/1*oUnuS2gXR6JG10WNzVgG-w.jpeg)
 
-## Create routing table.
+## Create routing table:
 The routing table is the path we have to specify to the vpc. Above is the architecture i have mentioned. In that diagram you can get it easily. As already mentioned that routable will be connected between *vpc* and *IG* so, we need to give the id of IG as well as vpc. The state should be present and the *region* you need to specify in which region you want to create routing table. The output of the routing table is stored in ***public_route_table***.
 ```
 - name: create ec2 VPC public subnet route table
@@ -101,7 +101,7 @@ The routing table is the path we have to specify to the vpc. Above is the archit
 ```
 ![route_table](https://miro.medium.com/max/875/1*ss3qh-Wjj5JgR5IER_Bymg.jpeg)
 
-## Creating security group.
+## Creating security group:
 To secure the services we want to run in the respective OS we need to create a firewall. So that our application running on a particular port no. would be safe. Also to create a security group in AWS is compulsory you cannot deny that. **ec2_group** is the module in ansible to creat security group. You need to specify the vpc id i.e in which vpc you want to create a security group also on which port your services are running and who will access it. So here i have mentioned that my services are running on any one of the port and all public IP can access my services. Hence i have mentioned below in proto as all. Also you need to give **cidr ip** that is stored inside variable *port22CidrBlock*. The output of the security group is stored inside variable **security_group_results.**
 
 ```
@@ -145,7 +145,7 @@ Now after creating all the required services we can launch no. of ec2-instances.
              Name: "{{ item }}"
   loop: "{{ Os_Names }}"
 ```
-Now you can create those instances by running the main playbook. I create roles to do the same. You can create the role using below command.
+Now you can create those instances by running the main playbook. I created roles to do the same. You can create the role using below command.
 ```
 > Creating role to create VPC.
   ansible galaxy init create_vpc
@@ -217,7 +217,7 @@ Now we can proceed with running the main playbook. you create a new file named a
 ```
 Now after creating ***main_playbook.yml*** then we can run that using  `ansible-playbook     main_playbook.yml`. Ensure one thing if the main playbook run then roles will run simultaneously.
 
-![fe](https://github.com/amit17133129/Launching-A-WordPress-Application-With-MYSQL-Database-in-K8S-Cluster-On-AWS-Using-Ansible-/blob/main/Images/Ec2-launch.gif?raw=true)
+![fe](https://github.com/tarunk0/Launching-A-WordPress-Application-With-MYSQL-Database-in-K8S-Cluster-On-AWS-Using-Ansible-/blob/main/Images/Ec2-launch.gif?raw=true)
 
 Now you can check the ec2 dashboard you will be finding that three instances are created.
 
@@ -235,7 +235,7 @@ A Kubernetes cluster is a set of node machines for running **containerized appli
 
 ![k8s_multi_node_architecture](https://miro.medium.com/max/875/1*cKXM6AvzdF41DoZD5uEk6w.gif)
 
-So lets configure master and slaves which we have launched above. Here, i used Ansible Dynamic Inventory to configure master and slave. Dynamic inventory is an ansible plugin that makes an API call to AWS to get the instance information in the run time. It gives you the ec2 instance details dynamically to manage the AWS infrastructure. When I started using the Dynamic inventory, it was just a Python file. Later it became an Ansible plugin. To know how we can use Ansible Dynamic Inventory click [`here`](https://amitsharma13318.medium.com/managing-complex-environment-using-terraform-and-ansibles-dynamic-inventory-role-on-aws-9f71f4044485).
+So lets configure master and slaves which we have launched above. Here, i used Ansible Dynamic Inventory to configure master and slave. Dynamic inventory is an ansible plugin that makes an API call to AWS to get the instance information in the run time. It gives you the ec2 instance details dynamically to manage the AWS infrastructure. When I started using the Dynamic inventory, it was just a Python file. Later it became an Ansible plugin.
 
 First we have to write a playbook for master. You need to do the following steps in the respective playbook.
 
@@ -475,7 +475,7 @@ As you can see the role is created in above snap successfully. Along with roles 
     var: "Wordpress.stdout_lines"
 #task to launch mysql 
 - name: "Launching MySql"
-  shell: "kubectl run mydb1 --image=mysql:5.7 --env=MYSQL_ROOT_PASSWORD=redhat     --env=MYSQL_DATABASE=wpdb  --env=MYSQL_USER=amit  --env=MYSQL_PASSWORD=redhat"
+  shell: "kubectl run mydb1 --image=mysql:5.7 --env=MYSQL_ROOT_PASSWORD=redhat     --env=MYSQL_DATABASE=wpdb  --env=MYSQL_USER=tarun  --env=MYSQL_PASSWORD=redhat"
   register: MySql
 ```
 
@@ -489,7 +489,7 @@ MYSQL_ROOT_PASSWORD=redhat
 MYSQL_DATABASE=wpdb
 
 #mysql user name
-MYSQL_USER=amit
+MYSQL_USER=tarun
 
 #myd=sql password
 MYSQL_PASSWORD=redhat
@@ -558,11 +558,11 @@ This main playbook consists of the following:
 
 As we are using **dynamic inventory** then the inventory plugins for AWS i.e ***ec2.ini*** and ***ec2.py*** will fetch the ip address of the master and slaves using the *tag names* respectively. The first role will run for configuring master node and then role for configuration of Slave Nodes. As you can see that i have used here the ***vars_prompt*** module that will prompt ask for the token while running the main playbook. Here user needs to copy the token generated after initializing the master and to be pasted inside the prompt variable “*Enter Token To Join To Master*”. The last role will launch the wordpress and mysql pods respectively as well as expose that pods. You can run the main playbook using `ansible-playbook main_plybook.yml`.
 
-![Running Main Playbook](https://github.com/amit17133129/Launching-A-WordPress-Application-With-MYSQL-Database-in-K8S-Cluster-On-AWS-Using-Ansible-/blob/main/Images/Running%20Main%20Playbook.gif?raw=true)
+![Running Main Playbook](https://github.com/tarunk0/Launching-A-WordPress-Application-With-MYSQL-Database-in-K8S-Cluster-On-AWS-Using-Ansible-/blob/main/Images/Running%20Main%20Playbook.gif?raw=true)
 
 Now you can take th public of any node wither master or slave with the exposed port you will landed to the *wordpress login* page and then enter *password* and *username* of the **mysql database** and hit the `run installation` button. your wordpress application will be ready !! You can check the example in the below gif.
 
-![WordPress Mysql](https://github.com/amit17133129/Launching-A-WordPress-Application-With-MYSQL-Database-in-K8S-Cluster-On-AWS-Using-Ansible-/blob/main/Images/Wordpress-Mysql.gif?raw=true)
+![WordPress Mysql](https://github.com/tarunk0/Launching-A-WordPress-Application-With-MYSQL-Database-in-K8S-Cluster-On-AWS-Using-Ansible-/blob/main/Images/Wordpress-Mysql.gif?raw=true)
 
 ![finally_automated](https://miro.medium.com/max/875/1*xcGxaTQ4AOy6lHrhozrogw.jpeg)
 
