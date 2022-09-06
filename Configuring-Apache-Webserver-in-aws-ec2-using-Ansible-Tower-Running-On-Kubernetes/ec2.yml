@@ -1,0 +1,18 @@
+
+- hosts: "ec2-54-190-51-52.us-west-2.compute.amazonaws.com"
+  tasks:
+      
+    - name: "installing httpd"
+      yum: 
+        name: "httpd"
+        state: present
+         
+    - name: "copying content to /var/www/html/"
+      copy: 
+        content: "Hello Ansible Tower"
+        dest: "/var/www/html/ansible-tower.html"
+        
+    - name: "starting nginx server"
+      service:
+         name: "httpd"
+         state: restarted
