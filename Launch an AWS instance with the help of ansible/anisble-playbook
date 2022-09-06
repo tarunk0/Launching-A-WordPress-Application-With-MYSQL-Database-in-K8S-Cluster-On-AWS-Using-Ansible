@@ -1,0 +1,3 @@
+ansible  create  --vault-id  name@prompt   vault_name.yml
+
+ansible-playbook  --vault-id name@prompt  playbook_name.yml

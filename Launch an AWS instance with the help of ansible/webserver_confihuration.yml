@@ -1,0 +1,23 @@
+Configure web server in Managed Node
+
+- hosts: "ec2"
+
+  tasks:
+
+  - package:
+
+       name: "httpd"
+
+       state: present
+
+  - copy:
+
+       src: "index.html"
+
+       dest: "/var/www/html"
+
+  - service:
+       name: "httpd"
+       
+       
+       state: restarted
