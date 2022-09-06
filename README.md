@@ -1,6 +1,6 @@
 # Launching-A-WordPress-Application-With-MYSQL-Database-in-K8S-Cluster-On-AWS-Using-Ansible-
 
-Hey guys !! Back with another automation article. In this article you will find that how we can launch a wordpress application connected with MySql database inside kubernetes Cluster on AWS and automation using Ansible.
+In this article you will find that how we can launch a wordpress application connected with MySql database inside kubernetes Cluster on AWS and automation using Ansible.
 
 ![Task architecture](https://miro.medium.com/max/875/1*aaGrYChsd5PcQ_ErNsGsvw.gif)
 
@@ -8,7 +8,6 @@ Now to start this project we need to look at the required steps:
 Steps to do this project:
 Launch 3 (t2.micro) ec2-instances on AWS using Ansible. You can use Terraform also but all the process has been done using ansible so that’s why i included ansible here.
 I have launched an extra instance on AWS that has ansible installed in it and by that i provisoined above three instances.
-For installing ansible you can visit here.
 So lets launch the ec2-instances on AWS using Ansible. Below is the explanation of each services launched on AWS.
 Below are the services we need to launch on AWS using Ansible
 1. Create a VPC (Virtual Private Cloud)
@@ -558,11 +557,11 @@ This main playbook consists of the following:
 
 As we are using **dynamic inventory** then the inventory plugins for AWS i.e ***ec2.ini*** and ***ec2.py*** will fetch the ip address of the master and slaves using the *tag names* respectively. The first role will run for configuring master node and then role for configuration of Slave Nodes. As you can see that i have used here the ***vars_prompt*** module that will prompt ask for the token while running the main playbook. Here user needs to copy the token generated after initializing the master and to be pasted inside the prompt variable “*Enter Token To Join To Master*”. The last role will launch the wordpress and mysql pods respectively as well as expose that pods. You can run the main playbook using `ansible-playbook main_plybook.yml`.
 
-![Running Main Playbook](https://github.com/tarunk0/Launching-A-WordPress-Application-With-MYSQL-Database-in-K8S-Cluster-On-AWS-Using-Ansible-/blob/main/Images/Running%20Main%20Playbook.gif?raw=true)
+![Running Main Playbook](https://github.com/tarunk0/Launching-A-WordPress-Application-With-MYSQL-Database-in-K8S-Cluster-On-AWS-Using-Ansible/blob/main/Images/Running%20Main%20Playbook.gif?raw=true)
 
 Now you can take th public of any node wither master or slave with the exposed port you will landed to the *wordpress login* page and then enter *password* and *username* of the **mysql database** and hit the `run installation` button. your wordpress application will be ready !! You can check the example in the below gif.
 
-![WordPress Mysql](https://github.com/tarunk0/Launching-A-WordPress-Application-With-MYSQL-Database-in-K8S-Cluster-On-AWS-Using-Ansible-/blob/main/Images/Wordpress-Mysql.gif?raw=true)
+![WordPress Mysql](https://github.com/tarunk0/Launching-A-WordPress-Application-With-MYSQL-Database-in-K8S-Cluster-On-AWS-Using-Ansible/blob/main/Images/Wordpress-Mysql.gif)
 
 ![finally_automated](https://miro.medium.com/max/875/1*xcGxaTQ4AOy6lHrhozrogw.jpeg)
 
