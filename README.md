@@ -23,7 +23,7 @@ So, let's create one by one,
 ## Create a VPC (Virtual Private Cloud):
 We need to use the respective module given by the ansible to create vpc. Here we have ec2_vpc_net. This will create a VPC in your respective region. Here, i have given ap-south-1 as my avialibility-zone. You need to provide access_key, secret_key name of the vpc, cidr_block, state, etc and all the values are provided in respective variable. At the last i have register the value of the VPC after creating in to a variable ec2_vpc_net_result. so, i can use id of vpc in other services.
 
-!(vpc_archtecture)[https://miro.medium.com/max/875/1*qJEgyV7u8Ca1y4iMwoTulg.jpeg]
+![image](https://user-images.githubusercontent.com/92631457/188560970-93ac4bfe-c97d-4f33-92ec-8d016239e251.png)
 
 ```- name: create a new ec2 VPC
     ec2_vpc_net:
